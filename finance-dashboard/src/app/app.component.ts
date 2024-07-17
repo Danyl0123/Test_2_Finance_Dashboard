@@ -9,17 +9,8 @@ import { TableComponent } from './components/table/table.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavBarComponent, CommonModule, TableComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  userContentService = inject(UserContentService);
-  users: User[] = [];
-
-  constructor() {
-    this.userContentService.getData().subscribe((value) => {
-      this.users = value;
-    });
-  }
-}
+export class AppComponent {}
