@@ -1,0 +1,7 @@
+.nav-bar__link:hover {
+  cursor: pointer;
+}
+.nav-bar__link.active {
+  font-weight: bold;
+  color: blue; /* or any other style to indicate it's active */
+}
