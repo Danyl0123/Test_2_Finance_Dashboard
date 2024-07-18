@@ -3,15 +3,25 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#"
+          <a
+            class="nav-link nav-bar__link"
+            (click)="navigateToMainTable()"
+            routerLink="/main-table"
+            aria-current="page"
             >Загальна таблиця</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Коротка інформація</a>
+        <li class="nav-item nav-bar__link">
+          <a
+            class="nav-link nav-bar__link"
+            routerLink="/short-information"
+            (click)="navigateToShortInformation()"
+            >Коротка інформація</a
+          >
         </li>
       </ul>
     </div>
     Finance-Dashboard
   </div>
 </nav>
+<router-outlet></router-outlet>
