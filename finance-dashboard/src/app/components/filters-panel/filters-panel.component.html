@@ -1,0 +1,33 @@
+<h3 class="mt-5">Фільтри</h3>
+<div class="row p-3 mt-3 mb-3 align-items-center">
+  <div class="col">
+    <label for="issuanceStart">Дата видачі кредиту</label>
+    <input
+      type="date"
+      id="issuanceStart"
+      class="form-control"
+      [(ngModel)]="issuanceStart"
+      (ngModelChange)="onFilterChange()"
+    />
+  </div>
+  <div class="col">
+    <label for="issuanceEnd">Дата повернення кредиту</label>
+    <input
+      type="date"
+      id="issuanceEnd"
+      class="form-control"
+      [(ngModel)]="issuanceEnd"
+      (ngModelChange)="onFilterChange()"
+    />
+  </div>
+  <div class="col pt-3">
+    <label for="overdue">Show Overdue Only</label>
+    <input
+      type="checkbox"
+      id="overdue"
+      class="form-check-input"
+      [(ngModel)]="showOverdueOnly"
+      (change)="onFilterChange()"
+    />
+  </div>
+</div>

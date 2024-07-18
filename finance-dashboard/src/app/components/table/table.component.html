@@ -1,19 +1,21 @@
+<app-filters-panel (filterChange)="onFilterChange($event)"></app-filters-panel>
+
 <div class="container mt-5">
   <h2>Bootstrap Table</h2>
   <table class="table">
     <thead class="thead-dark">
       <tr>
-        <th class="th">id</th>
-        <th class="th">user</th>
-        <th class="th">issuance date</th>
-        <th class="th">return date</th>
-        <th class="th">actual return date</th>
-        <th class="th">body</th>
-        <th class="th">percent</th>
+        <th>id</th>
+        <th>user</th>
+        <th>issuance date</th>
+        <th>return date</th>
+        <th>actual return date</th>
+        <th>body</th>
+        <th>percent</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users; let i = index; trackBy: trackByUserId">
+      <tr *ngFor="let user of filteredUsers$ | async; trackBy: trackByUserId">
         <td>{{ user.id }}</td>
         <td>{{ user.user }}</td>
         <td>{{ user.issuance_date }}</td>
