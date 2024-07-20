@@ -1,12 +1,22 @@
-import { Component } from '@angular/core';
-import { TableComponent } from '../../components/table/table.component';
-import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
+import { Component, inject } from '@angular/core';
+import { UserContentService } from '../../data/services/user-content.service';
+import { User } from '../../data/interfaces/user.interface';
+import { ShortTableComponent } from '../../components/short-table/short-table.component';
 
 @Component({
   selector: 'app-short-information',
   standalone: true,
-  imports: [TableComponent, NavBarComponent],
+  imports: [ShortTableComponent],
   templateUrl: './short-information.component.html',
   styleUrl: './short-information.component.css',
 })
-export class ShortInformationComponent {}
+export class ShortInformationComponent {
+  userContentService = inject(UserContentService);
+  users: User[] = [];
+
+  constructor() {
+    this.userContentService
+      .getData()
+      .subscribe((value) => (this.users = value));
+  }
+}
