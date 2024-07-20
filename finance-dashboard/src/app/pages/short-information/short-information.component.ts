@@ -11,12 +11,5 @@ import { ShortTableComponent } from '../../components/short-table/short-table.co
   styleUrl: './short-information.component.css',
 })
 export class ShortInformationComponent {
-  userContentService = inject(UserContentService);
-  users: User[] = [];
-
-  constructor() {
-    this.userContentService
-      .getData()
-      .subscribe((value) => (this.users = value));
-  }
+  constructor() {}
 }
