@@ -1,0 +1,50 @@
+<div>
+  <div
+    class="short-table__block table-responsive"
+    *ngFor="let month of getMonths()"
+  >
+    <h3 class="mt-5">{{ month }}</h3>
+    <div class="short-table__info align-items-end bg-primary mt-1 col-lg-12">
+      <p
+        class="border border-primary col-sm-2.5 d-flex flex-column text-center"
+      >
+        Загальна кількість виданих кредитів:
+        <span class="bg-white short-table__span">{{
+          metrics[month].totalCredits
+        }}</span>
+      </p>
+      <p
+        class="border border-primary col-sm-2.5 column d-flex flex-column text-center"
+      >
+        Середня сума видачі кредитів:
+        <span class="bg-white short-table__span">
+          {{ metrics[month].averageAmount }}
+        </span>
+      </p>
+      <p
+        class="border border-primary col-sm-2.5 d-flex flex-column text-center"
+      >
+        Загальна сума виданих кредитів:
+        <span class="bg-white short-table__span">
+          {{ metrics[month].totalAmount }}
+        </span>
+      </p>
+      <p
+        class="border border-primary col-sm-2.5 d-flex flex-column text-center"
+      >
+        Загальна сума нарахованих відсотків:
+        <span class="bg-white short-table__span">
+          {{ metrics[month].totalInterest }}
+        </span>
+      </p>
+      <p
+        class="border border-primary col-sm-2.5 d-flex flex-column text-center"
+      >
+        Загальна кількість повернених кредитів:
+        <span class="bg-white short-table__span">
+          {{ metrics[month].totalReturnedCredits }}
+        </span>
+      </p>
+    </div>
+  </div>
+</div>

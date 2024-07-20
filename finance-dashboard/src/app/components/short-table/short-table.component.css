@@ -1,0 +1,10 @@
+.short-table__info {
+  display: flex;
+  border: 1px solid black;
+}
+.short-table__info p {
+  margin-bottom: 0;
+}
+.short-table__span {
+  padding-bottom: 3px;
+}
