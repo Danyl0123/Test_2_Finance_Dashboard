@@ -1,4 +1,67 @@
 <div>
+  <div>
+    <div class="top-users mt-5">
+      <h3>
+        Топ-10 користувачів за сумою сплачених відсотків для повернутих
+        кредитів:
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Користувач</th>
+              <th>Сума сплачених відсотків</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of topUsersByInterest">
+              <td>{{ user.user }}</td>
+              <td>{{ user.totalInterest }} грн</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="mt-4">
+        Топ-10 користувачів за співвідношенням відсотків до суми кредитів для
+        повернутих кредитів:
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th text-center>Користувач</th>
+              <th>Співвідношення</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of topUsersByRatio">
+              <td>{{ user.user }}</td>
+              <td>{{ user.ratio | number : "1.2-2" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="mt-4">Топ-10 користувачів за кількістю отриманих кредитів:</h3>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Користувач</th>
+          <th>Кількість кредитів</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of topUsersByCredits">
+          <td>{{ user.user }}</td>
+          <td>{{ user.count }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <div
     class="short-table__block table-responsive"
     *ngFor="let month of getMonths()"
@@ -17,33 +80,33 @@
         class="border border-primary col-sm-2.5 column d-flex flex-column text-center"
       >
         Середня сума видачі кредитів:
-        <span class="bg-white short-table__span">
-          {{ metrics[month].averageAmount }}
-        </span>
+        <span class="bg-white short-table__span">{{
+          metrics[month].averageAmount
+        }}</span>
       </p>
       <p
         class="border border-primary col-sm-2.5 d-flex flex-column text-center"
       >
         Загальна сума виданих кредитів:
-        <span class="bg-white short-table__span">
-          {{ metrics[month].totalAmount }}
-        </span>
+        <span class="bg-white short-table__span">{{
+          metrics[month].totalAmount
+        }}</span>
       </p>
       <p
-        class="border border-primary col-sm-2.5 d-flex flex-column text-center"
+        class="border border-primary col-sm-2.5 d-flex flex-column text-center bg-primary"
       >
         Загальна сума нарахованих відсотків:
-        <span class="bg-white short-table__span">
-          {{ metrics[month].totalInterest }}
-        </span>
+        <span class="bg-white short-table__span">{{
+          metrics[month].totalInterest
+        }}</span>
       </p>
       <p
-        class="border border-primary col-sm-2.5 d-flex flex-column text-center"
+        class="border border-primary col-sm-2.5 d-flex flex-column text-center bg-primary"
       >
         Загальна кількість повернених кредитів:
-        <span class="bg-white short-table__span">
-          {{ metrics[month].totalReturnedCredits }}
-        </span>
+        <span class="bg-white short-table__span">{{
+          metrics[month].totalReturnedCredits
+        }}</span>
       </p>
     </div>
   </div>
