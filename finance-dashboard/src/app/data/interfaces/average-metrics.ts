@@ -1,9 +1,11 @@
 export interface AverageMetrics {
-  [key: string]: {
-    totalCredits: number;
-    totalAmount: number;
-    averageAmount: number;
-    totalInterest: number;
-    totalReturnedCredits: number;
-  };
+  totalCredits: number;
+  totalAmount: number;
+  averageAmount: number;
+  totalInterest: number;
+  totalReturnedCredits: number;
+}
+
+export interface MetricsByMonth {
+  [month: string]: AverageMetrics;
 }

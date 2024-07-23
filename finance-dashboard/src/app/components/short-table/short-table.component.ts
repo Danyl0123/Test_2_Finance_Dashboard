@@ -1,5 +1,5 @@
-import { Component, OnInit, Pipe } from '@angular/core';
-import { AverageMetrics } from '../../data/interfaces/average-metrics';
+import { Component, OnInit } from '@angular/core';
+import { MetricsByMonth } from '../../data/interfaces/average-metrics';
 import { User } from '../../data/interfaces/user.interface';
 import { UserContentService } from '../../data/services/user-content.service';
 import { CommonModule } from '@angular/common';
@@ -12,17 +12,25 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./short-table.component.css'],
 })
 export class ShortTableComponent implements OnInit {
-  metrics: AverageMetrics = {};
+  metrics: MetricsByMonth = {};
+  topUsersByCredits: { user: string; count: number }[] = [];
+  topUsersByInterest: { user: string; totalInterest: number }[] = [];
+  topUsersByRatio: { user: string; ratio: number }[] = [];
 
   constructor(private userContentService: UserContentService) {}
 
   ngOnInit(): void {
     this.userContentService.getData().subscribe((users) => {
       this.calculateMetrics(users);
+      this.calculateTopUsers(users);
     });
   }
 
   private calculateMetrics(users: User[]): void {
+    const userCredits: { [key: string]: number } = {};
+    const userPaidInterest: { [key: string]: number } = {};
+    const userIssuedAmount: { [key: string]: number } = {};
+
     users.forEach((user) => {
       const issuanceMonth = new Date(user.issuance_date).toLocaleString(
         'uk-UA',
@@ -45,6 +53,18 @@ export class ShortTableComponent implements OnInit {
       if (user.actual_return_date) {
         this.metrics[issuanceMonth].totalReturnedCredits += 1;
       }
+
+      if (!userCredits[user.user]) {
+        userCredits[user.user] = 0;
+        userPaidInterest[user.user] = 0;
+        userIssuedAmount[user.user] = 0;
+      }
+
+      userCredits[user.user] += 1;
+      if (user.actual_return_date) {
+        userPaidInterest[user.user] += user.percent;
+      }
+      userIssuedAmount[user.user] += user.body;
     });
 
     for (let month in this.metrics) {
@@ -54,6 +74,44 @@ export class ShortTableComponent implements OnInit {
         ).toFixed(2)
       );
     }
+  }
+
+  private calculateTopUsers(users: User[]): void {
+    const userCredits: { [key: string]: number } = {};
+    const userPaidInterest: { [key: string]: number } = {};
+    const userIssuedAmount: { [key: string]: number } = {};
+
+    users.forEach((user) => {
+      if (!userCredits[user.user]) {
+        userCredits[user.user] = 0;
+        userPaidInterest[user.user] = 0;
+        userIssuedAmount[user.user] = 0;
+      }
+
+      userCredits[user.user] += 1;
+      userPaidInterest[user.user] += user.percent;
+      userIssuedAmount[user.user] += user.body;
+    });
+
+    this.topUsersByCredits = Object.keys(userCredits)
+      .map((user) => ({ user, count: userCredits[user] }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    this.topUsersByInterest = Object.keys(userPaidInterest)
+      .map((user) => ({ user, totalInterest: userPaidInterest[user] }))
+      .sort((a, b) => b.totalInterest - a.totalInterest)
+      .slice(0, 10);
+
+    this.topUsersByRatio = Object.keys(userIssuedAmount)
+      .map((user) => ({
+        user,
+        ratio: userIssuedAmount[user]
+          ? userPaidInterest[user] / userIssuedAmount[user]
+          : 0,
+      }))
+      .sort((a, b) => b.ratio - a.ratio)
+      .slice(0, 10);
   }
 
   getMonths(): string[] {
