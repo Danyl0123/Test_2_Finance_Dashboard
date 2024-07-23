@@ -15,8 +15,15 @@
           <th>percent</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let user of filteredUsers$ | async; trackBy: trackByUserId">
+      <tbody *ngIf="filteredUsers$ | async as users">
+        <tr
+          *ngFor="
+            let user of users
+              | paginate
+                : { itemsPerPage: itemsPerPage, currentPage: currentPage };
+            trackBy: trackByUserId
+          "
+        >
           <td>{{ user.id }}</td>
           <td>{{ user.user }}</td>
           <td>{{ user.issuance_date }}</td>
@@ -27,5 +34,29 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="pagination">
+    <pagination-controls
+      (pageChange)="currentPage = $event"
+    ></pagination-controls>
+  </div>
+  <div class="container mt-4">
+    <div class="items-per-page">
+      <div class="form-group d-flex align-items-center">
+        <label for="itemsPerPage" class="form-label"
+          >Кількість юзерів на сторінку:</label
+        >
+        <select
+          id="itemsPerPage"
+          [(ngModel)]="itemsPerPage"
+          (change)="currentPage = 1"
+          class="form-select ms-2 auto-width"
+        >
+          <option *ngFor="let option of [10, 20, 50, 100]" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+    </div>
   </div>
 </div>

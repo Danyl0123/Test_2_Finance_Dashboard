@@ -3,3 +3,11 @@
   text-align: left;
   vertical-align: middle;
 }
+.auto-width {
+  display: inline-block;
+  min-width: 3rem;
+  width: auto;
+}
+.pagination {
+  max-width: 300px;
+}
