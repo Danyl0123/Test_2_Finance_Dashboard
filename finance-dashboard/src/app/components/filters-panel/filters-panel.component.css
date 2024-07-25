@@ -1,0 +1,8 @@
+.from__inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+  padding: 0 20px;
+  align-items: end;
+}

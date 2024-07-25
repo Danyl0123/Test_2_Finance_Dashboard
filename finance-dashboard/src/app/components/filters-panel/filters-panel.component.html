@@ -1,33 +1,52 @@
-<h3 class="mt-5">Фільтри</h3>
+<h3 class="mt-5">Фильтры</h3>
 <div class="row p-3 mt-3 mb-3 align-items-end">
-  <div class="col me-2">
-    <label for="issuanceStart">Дата видачі кредиту</label>
-    <input
-      type="date"
-      id="issuanceStart"
-      class="form-control"
-      [(ngModel)]="issuanceStart"
-      (ngModelChange)="onFilterChange()"
-    />
-  </div>
-  <div class="col me-2">
-    <label for="issuanceEnd">Дата повернення кредиту</label>
-    <input
-      type="date"
-      id="issuanceEnd"
-      class="form-control"
-      [(ngModel)]="issuanceEnd"
-      (ngModelChange)="onFilterChange()"
-    />
-  </div>
-  <div class="col pt-3">
-    <label for="overdue" class="me-2">Просрочені кредити</label>
-    <input
-      type="checkbox"
-      id="overdue"
-      class="form-check-input"
-      [(ngModel)]="showOverdueOnly"
-      (change)="onFilterChange()"
-    />
+  <div class="from__inputs">
+    <div
+      class="d-flex flex-column align-items-center justify-content-end gap-3"
+    >
+      <div class="col me-2 d-flex flex-column align-items-center flex-md-row">
+        <label>Дата выдачи кредита от:</label>
+        <input
+          type="date"
+          class="form-control-sm ms-3"
+          [(ngModel)]="issuanceStartFrom"
+          (ngModelChange)="onFilterChange()"
+        />
+        <label class="ms-4">до:</label>
+        <input
+          type="date"
+          class="form-control-sm ms-3"
+          [(ngModel)]="issuanceStartTo"
+          (ngModelChange)="onFilterChange()"
+        />
+      </div>
+      <div class="col me-2 d-flex flex-column align-items-center flex-md-row">
+        <label>Дата возврата кредита от:</label>
+        <input
+          type="date"
+          class="form-control-sm ms-3"
+          [(ngModel)]="issuanceEndFrom"
+          (ngModelChange)="onFilterChange()"
+        />
+        <label class="ms-3">до:</label>
+        <input
+          type="date"
+          class="form-control-sm ms-3"
+          [(ngModel)]="issuanceEndTo"
+          (ngModelChange)="onFilterChange()"
+        />
+      </div>
+    </div>
+    <div>
+      <div class="col pt-3">
+        <label>Просроченные кредиты</label>
+        <input
+          type="checkbox"
+          class="form-check-input ms-3"
+          [(ngModel)]="showOverdueOnly"
+          (change)="onFilterChange()"
+        />
+      </div>
+    </div>
   </div>
 </div>

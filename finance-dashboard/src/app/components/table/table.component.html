@@ -1,6 +1,11 @@
 <app-filters-panel (filterChange)="onFilterChange($event)"></app-filters-panel>
+<div class="text-center my-3">
+  <div class="spinner-border text-primary" *ngIf="loading" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
 
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="!loading">
   <h2>Загальна таблиця</h2>
   <div class="table-responsive">
     <table class="table table-striped table-bordered table-hover table-sm">
@@ -24,15 +29,27 @@
             trackBy: trackByUserId
           "
         >
-          <td>{{ user.id }}</td>
-          <td>{{ user.user }}</td>
-          <td>{{ user.issuance_date }}</td>
-          <td>{{ user.return_date }}</td>
-          <td>{{ user.actual_return_date }}</td>
-          <td>{{ user.body }}</td>
-          <td>{{ user.percent }}</td>
+          <td>{{ user.id | number }}</td>
+          <td>{{ user.user | json }}</td>
+          <td>{{ user.issuance_date | date : "dd.MM.yyyy" }}</td>
+          <td>{{ user.return_date | date : "dd.MM.yyyy" }}</td>
+          <td>{{ user.actual_return_date | date : "dd.MM.yyyy" }}</td>
+          <td>{{ user.body | number }}</td>
+          <td>{{ user.percent | number }}</td>
         </tr>
       </tbody>
+      <ng-template
+        *ngIf="!(filteredUsers$ | async) || !(filteredUsers$ | async)?.length"
+        [ngTemplateOutlet]="noUsers"
+      >
+      </ng-template>
+      <ng-template #noUsers>
+        <tr>
+          <td colspan="7" class="text-center">
+            Дані за введеними фільтрами не знайдені.
+          </td>
+        </tr>
+      </ng-template>
     </table>
   </div>
   <div class="pagination">

@@ -9,20 +9,25 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./filters-panel.component.css'],
 })
 export class FiltersPanelComponent {
-  issuanceStart: string = '';
-  issuanceEnd: string = '';
+  issuanceStartFrom: string = '';
+  issuanceStartTo: string = '';
+  issuanceEndFrom: string = '';
+  issuanceEndTo: string = '';
   showOverdueOnly: boolean = false;
-
   @Output() filterChange = new EventEmitter<{
-    issuanceStart: string;
-    issuanceEnd: string;
+    issuanceStartFrom: string;
+    issuanceStartTo: string;
+    issuanceEndFrom: string;
+    issuanceEndTo: string;
     showOverdueOnly: boolean;
   }>();
 
   onFilterChange() {
     this.filterChange.emit({
-      issuanceStart: this.issuanceStart,
-      issuanceEnd: this.issuanceEnd,
+      issuanceStartFrom: this.issuanceStartFrom,
+      issuanceStartTo: this.issuanceStartTo,
+      issuanceEndFrom: this.issuanceEndFrom,
+      issuanceEndTo: this.issuanceEndTo,
       showOverdueOnly: this.showOverdueOnly,
     });
   }

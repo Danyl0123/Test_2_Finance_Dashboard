@@ -1,15 +1,19 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { User } from '../../data/interfaces/user.interface';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { UserContentService } from '../../data/services/user-content.service';
-import { FiltersPanelComponent } from '../filters-panel/filters-panel.component';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { FiltersPanelComponent } from '../filters-panel/filters-panel.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-table',
   standalone: true,
   imports: [
     CommonModule,
@@ -17,67 +21,47 @@ import { FormsModule } from '@angular/forms';
     NgxPaginationModule,
     FormsModule,
   ],
+  selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.css'],
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
   @Input() users: User[] = [];
-  filteredUsers$: Observable<User[]> = of([]);
+  filteredUsers$!: Observable<User[]>;
   currentPage: number = 1;
   itemsPerPage: number = 10;
+  noUsers: boolean = false;
+  loading: boolean = false;
 
-  private issuanceDateStart$ = new BehaviorSubject<string>('');
-  private issuanceDateEnd$ = new BehaviorSubject<string>('');
-  private showOverdueOnly$ = new BehaviorSubject<boolean>(false);
+  @ViewChild('noUsers') noUsersTemplate!: TemplateRef<any>;
 
-  constructor(private userContentService: UserContentService) {}
+  constructor(public userContentService: UserContentService) {}
 
   ngOnInit() {
-    this.filteredUsers$ = combineLatest([
-      this.userContentService.getData(),
-      this.issuanceDateStart$,
-      this.issuanceDateEnd$,
-      this.showOverdueOnly$,
-    ]).pipe(
-      map(([users, issuanceStart, issuanceEnd, overdueOnly]) => {
-        if (!users) return [];
-        return users.filter((user) => {
-          const issuanceDate = new Date(user.issuance_date);
-          const returnDate = new Date(user.return_date);
-          const actualReturnDate = user.actual_return_date
-            ? new Date(user.actual_return_date)
-            : null;
-          const today = new Date();
+    this.loadData();
+  }
 
-          const matchesIssuanceDate =
-            !issuanceStart ||
-            issuanceDate.getTime() === new Date(issuanceStart).getTime();
-
-          const matchesReturnDate =
-            !issuanceEnd ||
-            returnDate.getTime() === new Date(issuanceEnd).getTime();
-
-          const isOverdue = overdueOnly
-            ? (actualReturnDate &&
-                actualReturnDate.getTime() > returnDate.getTime()) ||
-              (!actualReturnDate && returnDate.getTime() < today.getTime())
-            : true;
-
-          return matchesIssuanceDate && matchesReturnDate && isOverdue;
-        });
-      })
-    );
+  loadData() {
+    this.loading = true;
+    setTimeout(() => {
+      this.filteredUsers$ = this.userContentService.getDataWithFilters();
+      this.loading = false;
+    }, 1000);
   }
 
   onFilterChange(filters: {
-    issuanceStart: string;
-    issuanceEnd: string;
+    issuanceStartFrom: string;
+    issuanceStartTo: string;
+    issuanceEndFrom: string;
+    issuanceEndTo: string;
     showOverdueOnly: boolean;
   }) {
-    this.issuanceDateStart$.next(filters.issuanceStart);
-    this.issuanceDateEnd$.next(filters.issuanceEnd);
-    this.showOverdueOnly$.next(filters.showOverdueOnly);
+    this.userContentService.updateFilters(filters);
     this.currentPage = 1;
+    this.loadData();
+  }
+  hasUsers(users: User[] | null): boolean {
+    return users !== null && users.length > 0;
   }
 
   trackByUserId(index: number, user: User): number {

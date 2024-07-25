@@ -3,6 +3,7 @@ import { MetricsByMonth } from '../../data/interfaces/average-metrics';
 import { User } from '../../data/interfaces/user.interface';
 import { UserContentService } from '../../data/services/user-content.service';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   imports: [CommonModule],
@@ -17,13 +18,21 @@ export class ShortTableComponent implements OnInit {
   topUsersByInterest: { user: string; totalInterest: number }[] = [];
   topUsersByRatio: { user: string; ratio: number }[] = [];
 
+  private subscription!: Subscription;
+
   constructor(private userContentService: UserContentService) {}
 
   ngOnInit(): void {
-    this.userContentService.getData().subscribe((users) => {
+    this.subscription = this.userContentService.getData().subscribe((users) => {
       this.calculateMetrics(users);
       this.calculateTopUsers(users);
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   private calculateMetrics(users: User[]): void {

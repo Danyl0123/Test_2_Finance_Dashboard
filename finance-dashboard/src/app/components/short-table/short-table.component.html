@@ -15,7 +15,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let user of topUsersByInterest">
-              <td>{{ user.user }}</td>
+              <td>{{ user.user | json }}</td>
               <td>{{ user.totalInterest }} грн</td>
             </tr>
           </tbody>
@@ -36,7 +36,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let user of topUsersByRatio">
-              <td>{{ user.user }}</td>
+              <td>{{ user.user | json }}</td>
               <td>{{ user.ratio | number : "1.2-2" }}</td>
             </tr>
           </tbody>
@@ -56,7 +56,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let user of topUsersByCredits">
-          <td>{{ user.user }}</td>
+          <td>{{ user.user | json }}</td>
           <td>{{ user.count }}</td>
         </tr>
       </tbody>
