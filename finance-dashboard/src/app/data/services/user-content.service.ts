@@ -18,7 +18,6 @@ export class UserContentService {
 
   constructor(private http: HttpClient) {}
 
-  // Метод для получения данных с примененными фильтрами
   getDataWithFilters(): Observable<User[]> {
     return combineLatest([
       this.getData(),
@@ -49,12 +48,10 @@ export class UserContentService {
     );
   }
 
-  // Метод для загрузки данных с сервера
   getData(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
 
-  // Фильтрация данных на основе переданных фильтров
   private filterUsers(
     users: User[] | undefined,
     filters: {
@@ -99,7 +96,6 @@ export class UserContentService {
     });
   }
 
-  // Метод для обновления фильтров
   updateFilters(filters: {
     issuanceStartFrom: string;
     issuanceStartTo: string;

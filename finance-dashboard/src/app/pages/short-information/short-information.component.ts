@@ -1,6 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { UserContentService } from '../../data/services/user-content.service';
-import { User } from '../../data/interfaces/user.interface';
+import { Component } from '@angular/core';
 import { ShortTableComponent } from '../../components/short-table/short-table.component';
 
 @Component({
